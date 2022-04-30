@@ -29,16 +29,9 @@ jobs:
           export PATH=${GITHUB_WORKSPACE}/android_prebuilts_build-tools/path/linux-x86/:$PATH
           export PATH=${GITHUB_WORKSPACE}/android_prebuilts_build-tools/linux-x86/bin/:$PATH
 
-      - name: Build OP5 Config
-        run: |
-          cp .config ./kernel/.config
-          cd ./kernel/
-          make -j$(nproc --all) O=out lineage_oneplus5_defconfig \
-                                  ARCH=arm64 \
-                                  SUBARCH=arm64
-          
       - name: Build Kernel
         run: |
+          cp .config ./kernel/out/.config
           cd ./kernel/
           make -j$(nproc --all) O=out \
                                   ARCH=arm64 \
