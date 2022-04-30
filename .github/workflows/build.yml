@@ -31,6 +31,7 @@ jobs:
 
       - name: Build Kernel
         run: |
+          mkdir -p ./kernel/out/
           cp .config ./kernel/out/.config
           cd ./kernel/
           make -j$(nproc --all) O=out \
