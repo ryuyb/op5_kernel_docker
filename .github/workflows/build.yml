@@ -37,6 +37,7 @@ jobs:
           
       - name: Build Kernel
         run: |
+          cd ./kernel/
           make -j$(nproc --all) ARCH=arm64 \
                                 SUBARCH=arm64 \
                                 CROSS_COMPILE=aarch64-linux-gnu- \
