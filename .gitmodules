@@ -9,3 +9,6 @@
 [submodule "proton-clang"]
 	path = proton-clang
 	url = https://github.com/kdrag0n/proton-clang.git
+[submodule "AnyKernel3"]
+	path = AnyKernel3
+	url = https://github.com/osm0sis/AnyKernel3.git
