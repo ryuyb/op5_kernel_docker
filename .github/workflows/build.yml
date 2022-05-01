@@ -29,6 +29,10 @@ jobs:
           export PATH=${GITHUB_WORKSPACE}/android_prebuilts_build-tools/path/linux-x86/:$PATH
           export PATH=${GITHUB_WORKSPACE}/android_prebuilts_build-tools/linux-x86/bin/:$PATH
 
+      - name: Patch
+        run: |
+          cp -R ./patch/* ./kernel/
+
       - name: Build OP5 Config
         run: |
           cd ./kernel/
