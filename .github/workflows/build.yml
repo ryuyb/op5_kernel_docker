@@ -68,6 +68,7 @@ jobs:
 
       - name: Build With AnyKenerl3
         run: |
+          mkdir releases
           cp ${GITHUB_WORKSPACE}/anykernel.sh ${GITHUB_WORKSPACE}/AnyKernel3/anykernel.sh
           cp -f ./kernel/out/arch/arm64/boot/Image.gz-dtb ./AnyKernel3/Image.gz-dtb
           kernelversion=`head -n 3 ${GITHUB_WORKSPACE}/kernel/Makefile|awk '{print $3}'|tr -d '\n'`
