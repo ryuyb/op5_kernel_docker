@@ -35,6 +35,10 @@ jobs:
           make -j$(nproc --all) O=out lineage_oneplus5_defconfig \
                                   ARCH=arm64 \
                                   SUBARCH=arm64
+          rm out/.config
+          cp ../.config out/
+          cd out
+          make oldconfig
 
       - name: Build Kernel
         run: |
