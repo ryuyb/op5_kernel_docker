@@ -1,0 +1,84 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build OP5 Docker Kernel
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Init System
+        run: |
+          sudo apt update
+          sudo apt install -y gcc libssl-dev
+          export PATH=${GITHUB_WORKSPACE}/android_prebuilts_build-tools/path/linux-x86/:$PATH
+          export PATH=${GITHUB_WORKSPACE}/android_prebuilts_build-tools/linux-x86/bin/:$PATH
+
+      - name: Patch
+        run: |
+          cp -R ./patch/* ./kernel/
+
+      - name: Build OP5 Config
+        run: |
+          cd ./kernel/
+          make -j$(nproc --all) O=out lineage_oneplus5_defconfig \
+                                  ARCH=arm64 \
+                                  SUBARCH=arm64
+          rm out/.config
+          cp ../.config out/
+
+      - name: Build Kernel
+        run: |
+          cd ./kernel/
+          make -j$(nproc --all) O=out \
+                                  ARCH=arm64 \
+                                  SUBARCH=arm64 \
+                                  CROSS_COMPILE=aarch64-linux-gnu- \
+                                  CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+                                  PATH=${GITHUB_WORKSPACE}/proton-clang/bin:$PATH \
+                                  CC="clang" \
+                                  CXX=clang++ \
+                                  AR=llvm-ar \
+                                  NM=llvm-nm \
+                                  AS=llvm-as \
+                                  OBJCOPY=llvm-objcopy \
+                                  OBJDUMP=llvm-objdump \
+                                  STRIP=llvm-strip
+
+      - name: Attach Image.gz-dtb
+        uses: actions/upload-artifact@v3
+        with:
+          name: Image.gz-dtb
+          path: ./kernel/out/arch/arm64/boot/Image.gz-dtb
+
+      - name: Build With AnyKenerl3
+        run: |
+          mkdir releases
+          cp ${GITHUB_WORKSPACE}/anykernel.sh ${GITHUB_WORKSPACE}/AnyKernel3/anykernel.sh
+          cp -f ./kernel/out/arch/arm64/boot/Image.gz-dtb ./AnyKernel3/Image.gz-dtb
+          kernelversion=`head -n 3 ${GITHUB_WORKSPACE}/kernel/Makefile|awk '{print $3}'|tr -d '\n'`
+          buildtime=`date +%Y%m%d%s`
+          cd ${GITHUB_WORKSPACE}/AnyKernel3/
+          zip -r9 ../releases/op5lin18-docker-${kernelversion}_${buildtime}.zip * -x .git README.md *placeholder
+          ls -lh ../releases/
+
+      - name: Attach Release File
+        uses: actions/upload-artifact@v3
+        with:
+          name: op5lin18-docker.zip
+          path: ./releases/*.zip

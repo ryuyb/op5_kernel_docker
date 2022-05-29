@@ -1,0 +1,12 @@
+[submodule "AnyKernel3"]
+	path = AnyKernel3
+	url = https://github.com/osm0sis/AnyKernel3.git
+[submodule "android_prebuilts_build-tools"]
+	path = android_prebuilts_build-tools
+	url = https://github.com/LineageOS/android_prebuilts_build-tools.git
+[submodule "kernel"]
+	path = kernel
+	url = https://github.com/LineageOS/android_kernel_oneplus_msm8998.git
+[submodule "proton-clang"]
+	path = proton-clang
+	url = https://github.com/kdrag0n/proton-clang.git
