@@ -139,7 +139,7 @@ static inline unsigned int __trace_wb_cgroup_size(struct bdi_writeback *wb)
 	return wb->memcg_css->cgroup->kn->ino;
 }
 
-static inline unsigned int __trace_wbc_assign_cgroup(truct writeback_control *wbc)
+static inline unsigned int __trace_wbc_assign_cgroup(struct writeback_control *wbc)
 {
 	if (wbc->wb)
 		return __trace_wb_assign_cgroup(wbc->wb);
