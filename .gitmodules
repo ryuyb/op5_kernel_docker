@@ -1,11 +1,9 @@
 [submodule "kernel"]
 	path = kernel
 	url = https://github.com/LineageOS/android_kernel_oneplus_msm8998.git
-	branch = lineage-18.1
 [submodule "android_prebuilts_build-tools"]
 	path = android_prebuilts_build-tools
 	url = https://github.com/LineageOS/android_prebuilts_build-tools.git
-	branch = lineage-18.1
 [submodule "proton-clang"]
 	path = proton-clang
 	url = https://github.com/kdrag0n/proton-clang.git
