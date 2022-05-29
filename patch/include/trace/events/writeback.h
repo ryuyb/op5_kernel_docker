@@ -134,7 +134,7 @@ DEFINE_EVENT(writeback_dirty_inode_template, writeback_dirty_inode,
 #ifdef CREATE_TRACE_POINTS
 #ifdef CONFIG_CGROUP_WRITEBACK
 
-static inline unsigned int __trace_wb_cgroup_size(struct bdi_writeback *wb)
+static inline unsigned int __trace_wb_assign_cgroup(struct bdi_writeback *wb)
 {
 	return wb->memcg_css->cgroup->kn->ino;
 }
@@ -149,7 +149,7 @@ static inline unsigned int __trace_wbc_assign_cgroup(struct writeback_control *w
 
 #else	/* CONFIG_CGROUP_WRITEBACK */
 
-static inline unsigned int __trace_wbc_cgroup_size(struct writeback_control *wbc)
+static inline unsigned int __trace_wb_assign_cgroup(struct writeback_control *wbc)
 {
 	return -1U;
 }
