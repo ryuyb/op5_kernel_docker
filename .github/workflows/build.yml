@@ -74,7 +74,7 @@ jobs:
           kernelversion=`head -n 3 ${GITHUB_WORKSPACE}/kernel/Makefile|awk '{print $3}'|tr -d '\n'`
           buildtime=`date +%Y%m%d%s`
           cd ${GITHUB_WORKSPACE}/AnyKernel3/
-          zip -r9 ../releases/op5lin18-docker-${kernelversion}_${buildtime}.zip * -x .git README.md *placeholder
+          zip -r9 ../releases/op5lin19-docker-${kernelversion}_${buildtime}.zip * -x .git README.md *placeholder
           ls -lh ../releases/
 
       - name: Attach Release File
